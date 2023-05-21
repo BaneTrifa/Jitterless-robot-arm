@@ -1,9 +1,9 @@
 #include <Servo.h>
 
 // sw pwm rpi
-int rpiPin0 = 8;
-int rpiPin1 = 9;
-int rpiPin2 = 7;
+int rpiPin0 = 7;
+int rpiPin1 = 8;
+int rpiPin2 = 9;
 int rpiPin3 = 10;
 
 // servo pins
@@ -12,7 +12,7 @@ int servoPin1 = 5;
 int servoPin2 = 6;
 int servoPin3 = 11;
 
-Servo Servos[4];
+Servo servos[4];
 int angle[4];
 int curr_pulse[4];
 int pulse_value;
@@ -21,10 +21,10 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
 
-	Servos[0].attach(servoPin0);
-	Servos[1].attach(servoPin1);
-	Servos[2].attach(servoPin2);
-	Servos[3].attach(servoPin3);
+	servos[0].attach(servoPin0);
+	servos[1].attach(servoPin1);
+	servos[2].attach(servoPin2);
+	servos[3].attach(servoPin3);
 
   angle[0] = 0; angle[1] = 0; angle[2] = 0; angle[3] = 0;
   curr_pulse[0] = 0; curr_pulse[1] = 0; curr_pulse[2] = 0; curr_pulse[3] = 0;
@@ -37,7 +37,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
     
     pulse_value = pulseIn(rpiPin0, HIGH);
     if(abs(pulse_value - curr_pulse[0] ) > 200) {
@@ -65,16 +64,8 @@ void loop() {
 
 
 		for(int i = 0; i <= 3; ++i) {
-		   	
-      Serial.print("s");
-      Serial.print(i);
-      Serial.print(": ");
-      Serial.println(angle[i]);
-			
-		  Servos[i].write(angle[i]); 	 
+		  servos[i].write(angle[i]); 	 
 		}
-
-    delay(1000);
 }
 
 int getAngleFromPulse(int pulse) {
