@@ -12,7 +12,7 @@ int servoPin1 = 5;
 int servoPin2 = 6;
 int servoPin3 = 11;
 
-int tol = 200; // in microseconds
+int tol = 150; // in microseconds
 
 Servo servos[4];
 int angle[4];
@@ -41,12 +41,12 @@ void setup() {
 void loop() {
     
     pulse_value = pulseIn(rpiPin0, HIGH);
-    if(abs(pulse_value - curr_pulse[0] ) > tol) {
+    if(abs(pulse_value - curr_pulse[0] ) > tol || abs(pulse_value - curr_pulse[0] ) < 20) {
       curr_pulse[0] = pulse_value;
       angle[0] = getAngleFromPulse(curr_pulse[0]);
     }
 
-    pulse_value = pulseIn(rpiPin1, HIGH);
+    /*pulse_value = pulseIn(rpiPin1, HIGH);
     if(abs(pulse_value - curr_pulse[1] ) > tol) {
       curr_pulse[1] = pulse_value;
       angle[1] = getAngleFromPulse(curr_pulse[1]);
@@ -62,16 +62,12 @@ void loop() {
     if(abs(pulse_value - curr_pulse[3] ) > tol) {
       curr_pulse[3] = pulse_value;
       angle[3] = getAngleFromPulse(curr_pulse[3]);
-    }
+    }*/
 
-    
-    /*
-    #todo
-
-    smisliti nacin da se iscitaju manji pomeraji servo motora na pinu kako se ne bi isflitrirala svaka promena manja od neke gornje granice
-    nego da bude kao obruc (donja granica < jitter < gornja granica) tj. treba servo motor da ne pravi pokrete od 15 stepeni, nego manje od 1 (0.055 promila).
-    
-    */ 
+    Serial.println(pulse_value);
+    Serial.println(curr_pulse[0]);
+    Serial.println(angle[0]);
+    Serial.println("-----------------------------");
 
 		for(int i = 0; i <= 3; ++i) {
 		  servos[i].write(angle[i]); 	 
